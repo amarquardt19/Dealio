@@ -6,3 +6,10 @@ sources:
     schema: rawdata
     tables:
       - name: t12|022023|preserve_at_greison_trail
+      - name: t12|0825|skytop
+
+  - name: rawdatalabeling
+    database: dealio_emilio
+    schema: rawdatalabeling
+    tables:
+      - name: t12|0825|skytop
