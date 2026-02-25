@@ -14,3 +14,4 @@ sources:
     tables:
       - name: t12|0825|skytop
       - name: t12|0223|preserveatgreisontrail
+      - name: t12|0223|preserveatgreisontrail2
