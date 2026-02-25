@@ -13,3 +13,4 @@ sources:
     schema: rawdatalabeling
     tables:
       - name: t12|0825|skytop
+      - name: t12|0223|preserveatgreisontrail
