@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: rawdata
+    database: dealio_emilio
+    schema: rawdata
+    tables:
+      - name: t12|022023|preserve_at_greison_trail
