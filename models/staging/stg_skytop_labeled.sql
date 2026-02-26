@@ -1,6 +1,6 @@
 with source as (
 
-    select * from {{ source('rawdatalabeling', 't12|0825|skytop') }}
+    select * from {{ source('rawdatalabeling', 't12|0925|skytop') }}
 
 ),
 

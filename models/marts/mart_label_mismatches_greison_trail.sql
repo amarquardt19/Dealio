@@ -55,7 +55,6 @@ mismatches as (
         jan_2023,
         feb_2023,
         total,
-        source_doc,
         row_num
     from normalized
     where lower(trim(normalized_label)) != lower(trim(section_subcategory))

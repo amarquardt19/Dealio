@@ -2,16 +2,15 @@ version: 2
 
 sources:
   - name: rawdata
-    database: dealio_emilio
+    database: workspace
     schema: rawdata
     tables:
       - name: t12|022023|preserve_at_greison_trail
       - name: t12|0825|skytop
 
   - name: rawdatalabeling
-    database: dealio_emilio
+    database: workspace
     schema: rawdatalabeling
     tables:
-      - name: t12|0825|skytop
-      - name: t12|0223|preserveatgreisontrail
-      - name: t12|0223|preserveatgreisontrail2
+      - name: t12|0925|skytop
+      - name: t12|022023|preserveatgreison

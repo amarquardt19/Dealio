@@ -1,6 +1,6 @@
 with source as (
 
-    select * from {{ source('rawdatalabeling', 't12|0223|preserveatgreisontrail') }}
+    select * from {{ source('rawdatalabeling', 't12|022023|preserveatgreison') }}
 
 ),
 

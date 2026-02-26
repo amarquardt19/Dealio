@@ -1,20 +1,6 @@
-with labeled_1 as (
+with labeled as (
 
     select * from {{ ref('stg_preserve_at_greison_trail_labeled') }}
-
-),
-
-labeled_2 as (
-
-    select * from {{ ref('stg_preserve_at_greison_trail_labeled_2') }}
-
-),
-
-unioned as (
-
-    select *, 'preserveatgreisontrail' as source_doc from labeled_1
-    union all
-    select *, 'preserveatgreisontrail2' as source_doc from labeled_2
 
 ),
 
@@ -22,7 +8,7 @@ line_items_only as (
 
     -- remove section headers (all monthly values are null) and any total/net/subtotal rows
     select *
-    from unioned
+    from labeled
     where
         not (
             mar_2022 is null
@@ -86,7 +72,6 @@ classified as (
         cast(replace(jan_2023, ',', '') as double) as jan_2023,
         cast(replace(feb_2023, ',', '') as double) as feb_2023,
         cast(replace(total, ',', '') as double)    as total,
-        source_doc,
         row_num
 
     from line_items_only
