@@ -1,0 +1,84 @@
+with labeled as (
+
+    select * from {{ ref('stg_skytop_labeled') }}
+
+),
+
+line_items_only as (
+
+    -- remove section headers (all monthly values are null) and any total/net/subtotal rows
+    select *
+    from labeled
+    where
+        not (
+            sep_2024 is null
+            and oct_2024 is null
+            and nov_2024 is null
+            and dec_2024 is null
+            and jan_2025 is null
+            and feb_2025 is null
+            and mar_2025 is null
+            and apr_2025 is null
+            and may_2025 is null
+            and jun_2025 is null
+            and jul_2025 is null
+            and aug_2025 is null
+            and total is null
+        )
+        and upper(account_name) not like '%TOTAL%'
+        and upper(account_name) not like 'NET %'
+
+),
+
+classified as (
+
+    select
+        case
+            when account_code < '5000' then 'Revenue'
+            when account_code < '6500' then 'Expenses'
+        end as section_category,
+
+        case
+            -- Revenue subcategories
+            when account_code between '4000-0000' and '4060-0000' then 'Rental Income'
+            when account_code between '4081-0000' and '4081-9999' then 'Utility Income'
+            when account_code between '4400-0000' and '4699-0000' then 'Other Income'
+            -- Expense subcategories
+            when account_code between '5020-0000' and '5049-9999' then 'Payroll'
+            when account_code between '5056-0000' and '5056-9999' then 'General & Administrative'
+            when account_code between '5095-0000' and '5108-0000' then 'Marketing'
+            when account_code between '5200-0000' and '5215-0000' then 'Repairs & Maintenance'
+            when account_code between '5299-0000' and '5399-0000' then 'Utilities'
+            when account_code between '5460-0000' and '5465-0000' then 'Management Fees'
+            when account_code between '5499-0000' and '5515-0000' then 'Taxes'
+            when account_code between '5519-0000' and '5520-9999' then 'Insurance'
+            else 'Other'
+        end as section_subcategory,
+
+        account_code,
+        account_name,
+        proprietary_labeling,
+
+        cast(replace(sep_2024, ',', '') as double) as sep_2024,
+        cast(replace(oct_2024, ',', '') as double) as oct_2024,
+        cast(replace(nov_2024, ',', '') as double) as nov_2024,
+        cast(replace(dec_2024, ',', '') as double) as dec_2024,
+        cast(replace(jan_2025, ',', '') as double) as jan_2025,
+        cast(replace(feb_2025, ',', '') as double) as feb_2025,
+        cast(replace(mar_2025, ',', '') as double) as mar_2025,
+        cast(replace(apr_2025, ',', '') as double) as apr_2025,
+        cast(replace(may_2025, ',', '') as double) as may_2025,
+        cast(replace(jun_2025, ',', '') as double) as jun_2025,
+        cast(replace(jul_2025, ',', '') as double) as jul_2025,
+        cast(replace(aug_2025, ',', '') as double) as aug_2025,
+        cast(replace(total, ',', '') as double)    as total,
+        cast(replace(original_budget, ',', '') as double) as original_budget,
+        cast(replace(variance, ',', '') as double) as variance,
+        variance_pct,
+        row_num
+
+    from line_items_only
+
+)
+
+select * from classified
