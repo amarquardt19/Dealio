@@ -48,7 +48,7 @@ renamed as (
         _c12                                as jan_2023,
         _c13                                as feb_2023,
         _c14                                as total,
-        trim(_c15)                          as proprietary_label,
+        trim(_c15)                          as proprietary_labeling,
         row_num
     from filtered
 

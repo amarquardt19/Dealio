@@ -51,7 +51,7 @@ renamed as (
         _c15                                as original_budget,
         _c16                                as variance,
         _c17                                as variance_pct,
-        trim(_c20)                          as proprietary_label,
+        trim(_c20)                          as proprietary_labeling,
         row_num
     from filtered
 
