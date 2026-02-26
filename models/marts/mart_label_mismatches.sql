@@ -1,0 +1,51 @@
+with labeled as (
+
+    select * from {{ ref('int_labeled_greison_trail') }}
+
+),
+
+-- normalize proprietary labels to match section_subcategory naming
+-- so we only surface TRUE mismatches, not just abbreviation differences
+normalized as (
+
+    select
+        *,
+        case lower(trim(proprietary_labeling))
+            when 'g&a'       then 'General & Administrative'
+            when 'r&m'       then 'Repairs & Maintenance'
+            when 'mgmt fee'  then 'Management Fees'
+            when 'payroll'   then 'Payroll'
+            when 'utilities' then 'Utilities'
+            when 'insurance' then 'Insurance'
+            when 'marketing' then 'Marketing'
+            when 'taxes'     then 'Taxes'
+            else proprietary_labeling
+        end as normalized_label
+    from labeled
+    where proprietary_labeling is not null
+
+),
+
+mismatches as (
+
+    -- line items where the human-applied proprietary label
+    -- differs from the section the item structurally falls under
+    -- these are the most valuable training examples for a labeling model
+    select
+        account_code,
+        account_name,
+        section_category,
+        section_subcategory,
+        proprietary_labeling,
+        normalized_label,
+        total,
+        source_doc,
+        row_num
+    from normalized
+    where lower(trim(normalized_label)) != lower(trim(section_subcategory))
+
+)
+
+select *
+from mismatches
+order by section_subcategory, proprietary_labeling
