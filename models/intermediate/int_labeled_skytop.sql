@@ -35,23 +35,27 @@ classified as (
     select
         case
             when account_code < '5000' then 'Revenue'
-            when account_code < '6500' then 'Expenses'
+            else 'Expenses'
         end as section_category,
 
         case
             -- Revenue subcategories
-            when account_code between '4000-0000' and '4060-0000' then 'Rental Income'
-            when account_code between '4081-0000' and '4081-9999' then 'Utility Income'
-            when account_code between '4400-0000' and '4699-0000' then 'Other Income'
+            when account_code between '4030-000' and '4060-999' then 'Rental Income'
+            when account_code between '4100-000' and '4199-999' then 'Rental Income'
+            when account_code between '4200-000' and '4399-999' then 'Utility Income'
+            when account_code between '4950-000' and '4950-999' then 'Utility Income'
+            when account_code between '4400-000' and '4999-999' then 'Other Income'
             -- Expense subcategories
-            when account_code between '5020-0000' and '5049-9999' then 'Payroll'
-            when account_code between '5056-0000' and '5056-9999' then 'General & Administrative'
-            when account_code between '5095-0000' and '5108-0000' then 'Marketing'
-            when account_code between '5200-0000' and '5215-0000' then 'Repairs & Maintenance'
-            when account_code between '5299-0000' and '5399-0000' then 'Utilities'
-            when account_code between '5460-0000' and '5465-0000' then 'Management Fees'
-            when account_code between '5499-0000' and '5515-0000' then 'Taxes'
-            when account_code between '5519-0000' and '5520-9999' then 'Insurance'
+            when account_code between '5020-000' and '5115-999' then 'Payroll'
+            when account_code between '5120-000' and '5234-999' then 'General & Administrative'
+            when account_code between '5235-000' and '5235-999' then 'Management Fees'
+            when account_code between '5236-000' and '5270-999' then 'General & Administrative'
+            when account_code between '5310-000' and '5365-999' then 'Repairs & Maintenance'
+            when account_code between '5410-000' and '5475-999' then 'Marketing'
+            when account_code between '5615-000' and '5850-999' then 'Repairs & Maintenance'
+            when account_code between '5910-000' and '5940-999' then 'Turnover'
+            when account_code between '6410-000' and '6559-999' then 'Utilities'
+            when account_code between '6560-000' and '6599-999' then 'Insurance'
             else 'Other'
         end as section_subcategory,
 
