@@ -11,14 +11,18 @@ normalized as (
     select
         *,
         case lower(trim(proprietary_labeling))
-            when 'g&a'       then 'General & Administrative'
-            when 'r&m'       then 'Repairs & Maintenance'
-            when 'mgmt fee'  then 'Management Fees'
-            when 'payroll'   then 'Payroll'
-            when 'utilities' then 'Utilities'
-            when 'insurance' then 'Insurance'
-            when 'marketing' then 'Marketing'
-            when 'taxes'     then 'Taxes'
+            when 'g&a'            then 'General & Administrative'
+            when 'r&m'            then 'Repairs & Maintenance'
+            when 'mgmt fee'       then 'Management Fees'
+            when 'rubs'           then 'Utility Income'
+            when 'other income'   then 'Other Income'
+            when 'rental income'  then 'Rental Income'
+            when 'turnover'       then 'Turnover'
+            when 'payroll'        then 'Payroll'
+            when 'utilities'      then 'Utilities'
+            when 'insurance'      then 'Insurance'
+            when 'marketing'      then 'Marketing'
+            when 'taxes'          then 'Taxes'
             else proprietary_labeling
         end as normalized_label
     from labeled
