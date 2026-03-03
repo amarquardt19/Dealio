@@ -1,16 +1,11 @@
 version: 2
 
 sources:
-  - name: rawdata
-    database: workspace
-    schema: rawdata
-    tables:
-      - name: t12|022023|preserve_at_greison_trail
-      - name: t12|0825|skytop
-
   - name: rawdatalabeling
     database: workspace
     schema: rawdatalabeling
     tables:
       - name: t12|0925|skytop
       - name: t12|022023|preserveatgreison
+      - name: t12|1223|junctionatvinings
+      - name: t12|0123|eastponcevillage

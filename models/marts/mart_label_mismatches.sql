@@ -16,6 +16,12 @@ skytop as (
 
 ),
 
+generic as (
+
+    select * from {{ ref('mart_generic_labeled') }}
+
+),
+
 -- normalize proprietary labels to match section_subcategory naming
 -- so we only surface TRUE mismatches, not just abbreviation differences
 normalize_map as (
@@ -103,6 +109,42 @@ normalize_map as (
         total
     from skytop
     where proprietary_labeling is not null
+
+    union all
+
+    -- Generic pipeline: all new properties (section headers = labels)
+    select
+        property_name,
+        null as period,
+        account_code,
+        account_name,
+        section_category,
+        section_subcategory,
+        proprietary_labeling,
+        case lower(trim(proprietary_labeling))
+            when 'g&a'            then 'General & Administrative'
+            when 'r&m'            then 'Repairs & Maintenance'
+            when 'mgmt fee'       then 'Management Fees'
+            when 'rubs'           then 'RUBS'
+            when 'other income'   then 'Other Income'
+            when 'rental income'  then 'Rental Income'
+            when 'turnover'       then 'Turnover'
+            when 'payroll'        then 'Payroll'
+            when 'utilities'      then 'Utilities'
+            when 'insurance'      then 'Insurance'
+            when 'marketing'      then 'Marketing'
+            when 'taxes'          then 'Taxes'
+            when 'contract'       then 'Contract'
+            when 'collection loss' then 'Collection Loss'
+            else proprietary_labeling
+        end as normalized_label,
+        month_01, month_02, month_03, month_04,
+        month_05, month_06, month_07, month_08,
+        month_09, month_10, month_11, month_12,
+        total
+    from generic
+    where proprietary_labeling is not null
+      and section_subcategory != 'Rental Income'
 
 ),
 

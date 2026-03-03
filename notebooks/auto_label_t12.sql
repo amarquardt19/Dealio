@@ -1,0 +1,2 @@
+-- See auto_label_t12.py for the fully automated Python notebook.
+-- Import that into Databricks and hit Run All.
